@@ -1,0 +1,10 @@
+{
+    "credentials": {
+        "username" : "username or email",
+        "password" : "pass"
+    },
+    "configs": {
+       "chatType" : "friends or clan",
+       "commandPrefix": "!"
+   }
+}
