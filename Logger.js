@@ -6,7 +6,7 @@ class Logger {
     }
 
     static debug(message) {
-        if (config.configs.debug == true) {
+        if (config.configs.debug == "true") {
             console.log("[" + getDateTime() + "][DEBUG]: " + message);
         }
     }

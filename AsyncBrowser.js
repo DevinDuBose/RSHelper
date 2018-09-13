@@ -13,12 +13,12 @@ class AsyncBrowser {
         Logger.trace("Browser launched.");
     }
 
-    close() {
+    function close() {
         browser.close();
         Logger.trace("Browser closed.");
     }
 
-    async goTo(url) {
+    async function goTo(url) {
         try {
             await page.goto(url);
             return true;
@@ -28,7 +28,7 @@ class AsyncBrowser {
         }
     }
 
-    async setFrame(index) {
+    async function setFrame(index) {
         try {
             frame = await page.frames()[index];
             return true;
@@ -38,7 +38,7 @@ class AsyncBrowser {
         }
     }
 
-    async type(frame, selector, input) {
+    async function type(selector, input) {
         try {
             await frame.type(selector, input);
             return true;
@@ -49,7 +49,7 @@ class AsyncBrowser {
         }
     }
 
-    async click(frame, selector) {
+    async function click(selector) {
         try {
             await frame.click(selector);
             return true;
