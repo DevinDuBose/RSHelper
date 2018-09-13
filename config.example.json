@@ -5,6 +5,7 @@
     },
     "configs": {
        "chatType" : "friends or clan",
-       "commandPrefix": "!"
+       "commandPrefix": "!",
+	   "debug": "true or false"
    }
 }
