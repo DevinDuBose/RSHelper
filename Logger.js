@@ -1,4 +1,4 @@
-const config = require("./config.json");
+const config = require("./Config.json");
 
 class Logger {
     static trace(message) {

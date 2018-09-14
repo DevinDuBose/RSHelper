@@ -1,6 +1,6 @@
 const browser = require("./AsyncBrowser");
 const queue = require("./Queue");
-const config = require("./Config");
+const config = require("./Config.json");
 
 class CompanionApp {
     let connected;
@@ -10,6 +10,7 @@ class CompanionApp {
     constructor() {
         readQueue = new Queue();
         writeQueue = new Queue();
+        connect();
     }
 
     function connect() {
@@ -42,10 +43,10 @@ class CompanionApp {
     }
 
     function login() {
-        browser.type("input#username", config.login.username);
-        browser.type("input#password", config.login.password);
+        browser.type("input#username", config.credentials.username);
+        browser.type("input#password", config.credentials.password);
         browser.click("button.icon-login");
-        logger.trace("You are logging in as " + config.login.username);
+        logger.trace("You are logging in as " + config.credentials.username);
     }
 
     function openChatbox() {
@@ -64,7 +65,7 @@ class CompanionApp {
     }
 
     function read() {
-        
+
     }
 
     function write() {
