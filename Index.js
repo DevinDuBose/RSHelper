@@ -5,17 +5,18 @@ const commandPrefix = config.configs.commandPrefix;
 
 while (companionApp.connected == true) {
     companionApp.read();
-}
 
-while (companionApp.readQueue > 0) {
-    let currentCommand = companionApp.readQueue[0];
-    let args = currentCommand.split(' ');
+    if (companionApp.readQueue.length > 0) {
+        let currentCommand = companionApp.readQueue[0];
+        let args = currentCommand.split(' ');
 
-    //playername (prefix)command trailing_args go over here reeee
-    if (args[1].startsWith(commandPrefix)) {
-        let author = args[0];
-        let commandName = args[1].replace(commandPrefix, '');
-        handleCommand(companionApp, commandName, args, author);
+        //playername (prefix)command trailing_args go over here reeee
+        if (args[1].startsWith(commandPrefix)) {
+            let author = args[0];
+            let commandName = args[1].replace(commandPrefix, '');
+            Logger.trace("Found command name [" + commandName + "]");
+            handleCommand(companionApp, commandName, args, author);
+        }
     }
 }
 

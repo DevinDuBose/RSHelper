@@ -1,24 +1,29 @@
 const puppeteer = require("puppeteer");
 
 class AsyncBrowser {
-    let browser;
-    let page;
-    let frame;
 
     constructor() {
+        var browser;
+        var page;
+        var frame;
+
+        launch();
+        Logger.trace("Browser launched.");
+    }
+
+    async launch() {
         browser = await puppeteer.launch({
             args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-web-security", "--user-data-dir"]
         });
         page = await browser.newPage();
-        Logger.trace("Browser launched.");
     }
 
-    function close() {
+    close() {
         browser.close();
         Logger.trace("Browser closed.");
     }
 
-    async function goTo(url) {
+    async goTo(url) {
         try {
             await page.goto(url);
             return true;
@@ -28,7 +33,7 @@ class AsyncBrowser {
         }
     }
 
-    async function setFrame(index) {
+    async setFrame(index) {
         try {
             frame = await page.frames()[index];
             return true;
@@ -38,7 +43,7 @@ class AsyncBrowser {
         }
     }
 
-    async function type(selector, input) {
+    async type(selector, input) {
         try {
             await frame.type(selector, input);
             return true;
@@ -49,7 +54,7 @@ class AsyncBrowser {
         }
     }
 
-    async function click(selector) {
+    async click(selector) {
         try {
             await frame.click(selector);
             return true;
@@ -60,7 +65,7 @@ class AsyncBrowser {
         }
     }
 
-    async function waitForSelector(selector, timeout, hidden) {
+    async waitForSelector(selector, timeout, hidden) {
         try {
             await frame.waitForSelector(selector, {
                 timeout: timeout,
