@@ -1,7 +1,9 @@
-const companionApp = require('./CompanionApp.js');
-const config = require('./Config.json');
+const companionApp = require('./CompanionApp');
+const config = require('./Config');
+const logger = require('./Logger');
 
 const commandPrefix = config.configs.commandPrefix;
+const app = new companionApp();
 
 while (companionApp.connected == true) {
     companionApp.read();

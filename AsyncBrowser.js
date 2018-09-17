@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const logger = require('./Logger');
 
 class AsyncBrowser {
 
@@ -7,75 +8,79 @@ class AsyncBrowser {
         var page;
         var frame;
 
-        launch();
-        Logger.trace("Browser launched.");
+        this.launch();
+        logger.debug("Constructing a browser object.");
+
     }
 
     async launch() {
-        browser = await puppeteer.launch({
+        this.browser = await puppeteer.launch({
             args: ["--no-sandbox", "--disable-setuid-sandbox", "--disable-web-security", "--user-data-dir"]
         });
-        page = await browser.newPage();
+        this.page = await this.browser.newPage();
+        logger.debug("Browser launched.");
     }
 
     close() {
-        browser.close();
-        Logger.trace("Browser closed.");
+        this.browser.close();
+        logger.trace("Browser closed.");
     }
 
     async goTo(url) {
         try {
-            await page.goto(url);
+            await this.page.goto(url);
             return true;
         } catch (e) {
-            Logger.trace("Failed to navigate to: " + url);
+            logger.trace("Failed to navigate to: " + url);
             return false;
         }
     }
 
     async setFrame(index) {
         try {
-            frame = await page.frames()[index];
+            this.frame = await page.frames()[index];
             return true;
         } catch (e) {
-            Logger.trace("Failed to set the frame from the requested page.");
+            logger.trace("Failed to set the frame from the requested page.");
             return false;
         }
     }
 
     async type(selector, input) {
         try {
-            await frame.type(selector, input);
+            await this.frame.type(selector, input);
             return true;
         } catch (e) {
-            let nullFrame = frame == undefined ? true : false;
-            nullFrame == true ? Logger.trace("Unable to type to input in a null frame.") : Logger.trace("Failed to type input in the selector: " + selector);
+            let nullFrame = this.frame == undefined ? true : false;
+            nullFrame == true ? logger.trace("Unable to type to input in a null frame.") : logger.trace("Failed to type input in the selector: " + selector);
             return false;
         }
     }
 
     async click(selector) {
         try {
-            await frame.click(selector);
+            await this.frame.click(selector);
             return true;
         } catch (e) {
-            let nullFrame = frame == undefined ? true : false;
-            nullFrame == true ? Logger.trace("Unable to click buttons in a null frame.") : Logger.trace("Failed to click a selector with the value: " + selector);
+            let nullFrame = this.frame == undefined ? true : false;
+            nullFrame == true ? logger.trace("Unable to click buttons in a null frame.") : logger.trace("Failed to click a selector with the value: " + selector);
             return false;
         }
     }
 
     async waitForSelector(selector, timeout, hidden) {
         try {
-            await frame.waitForSelector(selector, {
+            await this.frame.waitForSelector(selector, {
                 timeout: timeout,
                 hidden: hidden
             });
             return true;
         } catch (e) {
-            Logger.trace("Taking too long to load, timed out.");
+            logger.trace("Taking too long to load, timed out.");
             return false;
         }
     }
 
 }
+
+module.exports = AsyncBrowser;
